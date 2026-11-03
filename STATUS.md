@@ -1,15 +1,16 @@
 # STATUS
 
-## Placeholders you need to fill
+## Placeholders
+Filled: Reg. No. `23FE10CII00213`, course "Natural Language Processing (NLP)", guide "Heena Kalim"
+(report cover, certificate, declaration, acknowledgement; slide 1).
+
+Still to fill:
 | Placeholder | Where |
 |---|---|
-| `[REG_NO]` | report: cover, certificate, declaration; slides: slide 1 |
-| `[COURSE_CODE]` | report: cover, certificate; slides: slide 1 |
-| `[FACULTY_NAME]` | report: cover, certificate, declaration, acknowledgement; slides: slide 1 |
-| `[FACULTY_DESIGNATION]` | report: certificate |
+| `[FACULTY_DESIGNATION]` | report: certificate (line under the guide's name) |
 | Signatures and dates | report: certificate and declaration (blank lines) |
 
-Edit them in `scripts/build_report.py` / `scripts/build_slides.py` and rebuild, or directly in Word/PowerPoint.
+Edit them in `scripts/build_report.py` and rebuild, or directly in Word.
 
 ## Report file: action needed
 `report/report_build.docx` and `report/report_build.pdf` are the **current** report (27 pages; chapters 1-6 are

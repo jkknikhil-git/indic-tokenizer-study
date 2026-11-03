@@ -226,15 +226,15 @@ def front_matter(R: Report):
     R.para(TITLE, bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=17)
     d.add_paragraph()
     R.para("Submitted in partial fulfilment of the requirements of the course", align=WD_ALIGN_PARAGRAPH.CENTER)
-    R.para("[COURSE_CODE] Natural Language Processing", bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+    R.para("Natural Language Processing (NLP)", bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
     d.add_paragraph()
     R.para("Submitted by", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
     R.para("Nikhileshwar Jakka", bold=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=14)
-    R.para("Reg. No. [REG_NO]", align=WD_ALIGN_PARAGRAPH.CENTER)
+    R.para("Reg. No. 23FE10CII00213", align=WD_ALIGN_PARAGRAPH.CENTER)
     R.para("B.Tech CSE (IoT & Intelligent Systems)", align=WD_ALIGN_PARAGRAPH.CENTER)
     d.add_paragraph()
     R.para("Under the guidance of", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
-    R.para("[FACULTY_NAME]", bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+    R.para("Heena Kalim", bold=True, align=WD_ALIGN_PARAGRAPH.CENTER)
     R.para("Department of Computer Science and Engineering", align=WD_ALIGN_PARAGRAPH.CENTER)
     d.add_paragraph()
     R.para("Manipal University Jaipur, Jaipur, Rajasthan, India", align=WD_ALIGN_PARAGRAPH.CENTER)
@@ -246,29 +246,29 @@ def front_matter(R: Report):
     R.page_break()
     R.heading_plain("Certificate", toc=False).alignment = WD_ALIGN_PARAGRAPH.CENTER
     R.para(f"This is to certify that the project report entitled “{TITLE}”, submitted by "
-           "Nikhileshwar Jakka (Reg. No. [REG_NO]) in partial fulfilment of the requirements of the course "
-           "[COURSE_CODE] Natural Language Processing, is a bonafide record of the work carried out by the "
+           "Nikhileshwar Jakka (Reg. No. 23FE10CII00213) in partial fulfilment of the requirements of the course "
+           "Natural Language Processing (NLP), is a bonafide record of the work carried out by the "
            "student under my supervision during the academic year 2026–27.")
     for _ in range(3):
         R.doc.add_paragraph()
-    R.para("[FACULTY_NAME]\n[FACULTY_DESIGNATION]\nDepartment of Computer Science and Engineering\n"
+    R.para("Heena Kalim\n[FACULTY_DESIGNATION]\nDepartment of Computer Science and Engineering\n"
            "Manipal University Jaipur", align=WD_ALIGN_PARAGRAPH.LEFT)
     R.para("Date: ____________          Signature: ____________", align=WD_ALIGN_PARAGRAPH.LEFT)
 
     R.page_break()
     R.heading_plain("Declaration", toc=False).alignment = WD_ALIGN_PARAGRAPH.CENTER
-    R.para(f"I, Nikhileshwar Jakka (Reg. No. [REG_NO]), hereby declare that the project report entitled "
-           f"“{TITLE}” is my own work, carried out under the guidance of [FACULTY_NAME]. All results "
+    R.para(f"I, Nikhileshwar Jakka (Reg. No. 23FE10CII00213), hereby declare that the project report entitled "
+           f"“{TITLE}” is my own work, carried out under the guidance of Heena Kalim. All results "
            "reported here were produced by code that I ran and that is publicly available. All sources have "
            "been acknowledged and cited. This work has not been submitted elsewhere for any other degree or course.")
     for _ in range(3):
         R.doc.add_paragraph()
-    R.para("Nikhileshwar Jakka\nReg. No. [REG_NO]\nPlace: Jaipur          Date: ____________",
+    R.para("Nikhileshwar Jakka\nReg. No. 23FE10CII00213\nPlace: Jaipur          Date: ____________",
            align=WD_ALIGN_PARAGRAPH.LEFT)
 
     R.page_break()
     R.heading_plain("Acknowledgement", toc=False).alignment = WD_ALIGN_PARAGRAPH.CENTER
-    R.para("I thank my guide, [FACULTY_NAME], for advice and feedback throughout this project, and the "
+    R.para("I thank my guide, Heena Kalim, for advice and feedback throughout this project, and the "
            "Department of Computer Science and Engineering, Manipal University Jaipur, for the course that "
            "motivated it. I also thank the teams who released the open resources this study relies on: "
            "Meta AI for FLORES-200, AI4Bharat for Sangraha, IndicBERTv2 and IndicTrans2, Sarvam AI, Google, "

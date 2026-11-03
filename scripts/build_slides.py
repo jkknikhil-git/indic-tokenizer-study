@@ -143,9 +143,9 @@ def build():
     d.text(s, "A comparative study of Sarvam AI's tokenizers and akshara-aware subword segmentation "
               "for Indian languages", Inches(0.8), Inches(3.3), Inches(11.5), Inches(1.0), 22,
            RGBColor(0xC3, 0xC2, 0xB7))
-    d.text(s, ["Nikhileshwar Jakka  |  Reg. No. [REG_NO]",
+    d.text(s, ["Nikhileshwar Jakka  |  Reg. No. 23FE10CII00213",
                "B.Tech CSE (IoT & Intelligent Systems), Manipal University Jaipur",
-               "[COURSE_CODE] Natural Language Processing  |  Guide: [FACULTY_NAME]  |  November 2026"],
+               "Natural Language Processing (NLP)  |  Guide: Heena Kalim  |  November 2026"],
            Inches(0.8), Inches(5.2), Inches(11.5), Inches(1.6), 16, RGBColor(0xC3, 0xC2, 0xB7))
     d.notes(s, "Good morning. My project measures how much more it costs, in tokens, to use large language "
                "models in Indian languages, and whether tokenizers respect the syllables our scripts are built on. "
