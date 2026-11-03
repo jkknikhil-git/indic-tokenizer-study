@@ -1,0 +1,183 @@
+% Compile with XeLaTeX (tectonic main.tex, or Overleaf with the XeLaTeX compiler).
+\documentclass[conference]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+  ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+\setmonofont{texgyrecursor}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold,
+  ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+\newfontfamily\deva{NotoSansDevanagari-Regular.ttf}[Path=fonts/, Script=Devanagari]
+\newfontfamily\telu{NotoSansTelugu-Regular.ttf}[Path=fonts/, Script=Telugu]
+\newfontfamily\taml{NotoSansTamil-Regular.ttf}[Path=fonts/, Script=Tamil]
+\newfontfamily\knda{NotoSansKannada-Regular.ttf}[Path=fonts/, Script=Kannada]
+\newfontfamily\mlym{NotoSansMalayalam-Regular.ttf}[Path=fonts/, Script=Malayalam]
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\input{generated/numbers.tex}
+\newcommand{\repo}{https://github.com/jkknikhil-git/indic-tokenizer-study}
+
+\begin{document}
+
+\title{Measuring the Indic Tokenizer Tax: A Comparative Study of Sarvam AI's Tokenizers and Akshara-Aware Subword Segmentation for Indian Languages}
+
+\author{\IEEEauthorblockN{Nikhileshwar Jakka}
+\IEEEauthorblockA{Department of Computer Science and Engineering\\
+Manipal University Jaipur, Jaipur, India\\
+jkk.nikhil@gmail.com}}
+
+\maketitle
+
+\begin{abstract}
+The same sentence can cost very different numbers of tokens in different languages, which changes API cost, usable context and latency. We measure this ``tokenizer tax'' for 11 Indian languages on the parallel FLORES-200 devtest set across \val{n:tokenizers_published} published tokenizers, focusing on the three generations of Sarvam AI models. Using exact UTF-8 byte spans for every token, we also measure how often tokenizers break \emph{aksharas}, the orthographic syllables of Brahmic scripts. We find that Sarvam-M reuses the Mistral-Small-3.1 vocabulary unchanged (all \val{lin:sarvamm_mistral:shared_string_and_id} entries), and that the Sarvam-30B/105B vocabulary shares \val{lin:sarvam30b_gemma3:shared_pct}\% of its entries, with identical ids, with Gemma-3. Compared with Sarvam-1, Sarvam-30B lowers fertility on \val{wsv:n_b_better:fertility} Indo-Aryan languages but raises it on all four Dravidian languages, widening the Dravidian/Indo-Aryan fertility ratio from \val{wfam:ratio:fertility:sarvam-1} to \val{wfam:ratio:fertility:sarvam-30b}. Byte-level tokenizers such as Llama-3.1 split \val{asr:llama-3.1:indic}\% of aksharas. Finally, we propose \emph{akshara-atomic BPE}, which maps each frequent akshara to a single base symbol. At 64K vocabulary it reduces the akshara split rate from \val{asr:ours-bpe-64k:indic}\% to \val{asr:ours-akshara-bpe-64k:indic}\% (a \val{rq4:asr_reduction_pct:64k}\% reduction) at the price of \val{rq4:fert_increase_pct:64k}\% higher fertility, and every remaining split falls on an akshara outside the mapped inventory.
+\end{abstract}
+
+\begin{IEEEkeywords}
+tokenization, Indian languages, BPE, fertility, akshara, Sarvam AI, multilingual fairness
+\end{IEEEkeywords}
+
+\section{Introduction}
+Large language models (LLMs) see text only through their tokenizer. When a tokenizer needs more tokens for one language than for another, speakers of that language pay more per request, fit less text into the context window and wait longer for output~\cite{petrov2023unfairness,ahia-etal-2023-languages}. On the parallel FLORES-200 devtest set, GPT-4o's \texttt{o200k} tokenizer needs \val{parity:gpt-4o:tel_Telu}$\times$ as many tokens for Telugu as for the same content in English, and Llama-3.1 needs \val{parity:llama-3.1:tel_Telu}$\times$. Indian scripts add a second, less visible cost. Brahmic scripts are written in \emph{aksharas} (orthographic syllables such as {\deva क्ष} or {\telu ద్ర}) that combine consonants, viramas and vowel signs. A tokenizer can place a boundary \emph{inside} an akshara, leaving a vowel sign or virama without its consonant.
+
+Sarvam AI has released three generations of models with three different tokenizers: Sarvam-1 (Oct.\ 2024) with a custom 68K Indic vocabulary~\cite{sarvam2024sarvam1}, Sarvam-M (May 2025), built on Mistral Small~\cite{sarvam2025sarvamm}, and the open-weight Sarvam-30B and 105B (Mar.\ 2026)~\cite{sarvam2026sarvam30b}. This lineage is a rare natural experiment in how an Indian lab's tokenizer design changed over time. Our contributions are:
+\begin{itemize}
+\item A reproducible benchmark of \val{n:tokenizers_published} tokenizers on 11 Indian languages, with exact byte-span adapters for four tokenizer families, bootstrap confidence intervals and paired significance tests.
+\item An analysis of the Sarvam lineage that traces the Sarvam-M and Sarvam-30B/105B vocabularies to their sources (Mistral-Small-3.1 and Gemma-3) and quantifies the effect on Dravidian languages.
+\item The \emph{Akshara Split Rate} (ASR), a script-aware intrinsic metric, measured for every tokenizer.
+\item \emph{Akshara-atomic BPE}, which removes akshara splits by construction for its mapped inventory, with a study of how fertility trades off against vocabulary size.
+\end{itemize}
+Code, data pointers and all results are public.\footnote{\url{\repo}}
+
+\section{Background and Related Work}
+\textbf{Subword tokenization.} Byte-pair encoding (BPE) merges frequent symbol pairs~\cite{sennrich-etal-2016-neural}; the Unigram LM tokenizer prunes a large vocabulary probabilistically~\cite{kudo-2018-subword}; SentencePiece implements both directly on raw text~\cite{kudo-richardson-2018-sentencepiece}. Byte-level BPE, as in tiktoken~\cite{openai2023tiktoken} and Llama~3~\cite{grattafiori2024llama3}, operates on UTF-8 bytes and can therefore split a single character.
+
+\textbf{Measuring tokenizers.} Rust et al.\ introduced fertility and the proportion of continued words and linked them to downstream quality~\cite{rust-etal-2021-good}. Petrov et al.\ defined tokenization parity on parallel text~\cite{petrov2023unfairness}, and Ahia et al.\ showed the resulting cost disparity in commercial APIs~\cite{ahia-etal-2023-languages}. Zouhar et al.\ proposed Rényi efficiency~\cite{zouhar-etal-2023-tokenization}.
+
+\textbf{Indian-language resources.} IndicNLPSuite~\cite{kakwani-etal-2020-indicnlpsuite}, IndicBERTv2 and IndicXTREME~\cite{doddapaneni-etal-2023-towards}, MuRIL~\cite{khanuja2021muril}, IndicTrans2 with the IN22 benchmark~\cite{gala2023indictrans2}, and the Sangraha corpus of IndicLLMSuite~\cite{khan-etal-2024-indicllmsuite} underpin most Indic NLP. FLORES-200~\cite{goyal-etal-2022-flores,nllb2022} provides professionally translated parallel sentences.
+
+\textbf{Indic tokenizers.} Brahma et al.\ evaluated BPE and Unigram tokenizers on 17 Indian languages~\cite{brahma2025lens}. MorphTok adds morphology-aware pre-tokenization and a constrained BPE that stops dependent vowel signs from becoming standalone tokens~\cite{brahma2025morphtok}. Rana et al.\ build a multilingual tokenizer with an Indic variant~\cite{rana2025mutant}. Our akshara-atomic BPE is closest to MorphTok's constrained BPE, but it enforces whole-akshara units through the base alphabet rather than through merge constraints, and it applies to all nine Brahmic scripts we study. Our segmenter starts from Unicode extended grapheme clusters~\cite{unicode2025uax29}.
+
+\section{Methodology}
+\subsection{Data}
+For evaluation we use FLORES-200 devtest (\val{data:flores_per_lang} parallel sentences per language) for English and 11 Indian languages. The seven Indo-Aryan (IA) languages are Hindi, Marathi, Bengali, Assamese, Gujarati, Punjabi and Odia; the four Dravidian (Dr) languages are Telugu, Tamil, Kannada and Malayalam. IN22-Gen is gated on the Hugging Face Hub, so we left it out. To train our own tokenizers we streamed \val{data:train_per_lang} sentences per language (\val{data:train_total} in total, plus \val{data:heldout_total} held out) from the verified split of Sangraha~\cite{khan-etal-2024-indicllmsuite}. We deduplicated them and removed any sentence that shares a normalised 40-character substring with FLORES dev or devtest (\val{data:overlap_removed} were removed).
+
+\subsection{Tokenizer zoo}
+Table~\ref{tab:zoo} lists the tokenizers. We download tokenizer files only, never model weights. Llama-3.1 and Gemma-3 come from public mirrors, which we verified against the originals. The Llama-3.1 mirror's \val{mirror:llama_base_tokens} token-to-id pairs match Meta's \texttt{llama-models} file exactly, and the Gemma-3 mirror's tokenizer files have the same git blob hashes as Google's repository. The Sarvam-30B and 105B vocabularies and merges are identical, so we report them as one row.
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Tokenizers evaluated. ``Spans'' is how exact token byte spans are recovered.}
+\label{tab:zoo}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_zoo.tex}}
+\end{table}
+
+\subsection{Byte-span adapters}
+Measuring akshara splits requires the exact UTF-8 byte span of every token. For tiktoken and byte-level BPE we map each token back to its raw bytes. For SentencePiece with byte fallback we convert the word-boundary meta-symbol (U+2581) back to a space and \texttt{<0xNN>} pieces back to bytes. In both cases we assert that the concatenated spans reproduce the tokenizer's normalised input. For WordPiece and Unigram without byte fallback we use the tokenizer's character offsets, after checking that they are monotonic and cover every non-whitespace character. Formatting characters (ZWJ/ZWNJ) that the normaliser deletes are allowed to stay uncovered. Validation succeeded for at least \val{span:min_ok} of \val{span:total} sentences per tokenizer; the few failures are excluded from the span-based metrics only.
+
+\subsection{Metrics}
+For tokenizer $T$, language $\ell$ and sentence set $S$, with words obtained by whitespace splitting and punctuation stripping (the same rule for every tokenizer):
+\begin{align}
+\text{Fertility}(T,\ell) &= \textstyle\sum_{s\in S} |T(s_\ell)| \,/\, \sum_{s\in S} |W(s_\ell)|\\
+\text{Parity}(T,\ell) &= \textstyle\sum_{s\in S} |T(s_\ell)| \,/\, \sum_{s\in S} |T(s_{\text{en}})|\\
+\text{ASR}(T,\ell) &= 100\cdot \frac{|\{a : \exists b\in B_T,\ a_{\text{start}}<b<a_{\text{end}}\}|}{|\{a\}|}
+\end{align}
+Here $a$ ranges over aksharas and $B_T$ is the set of token boundaries in bytes. We also report the proportion of continued words (PCW)~\cite{rust-etal-2021-good}, the intra-character split rate (the share of codepoints whose bytes are split), the number of words that fit in an 8,192-token context, the share of \texttt{[UNK]} tokens, and Rényi efficiency ($\alpha{=}2.5$)~\cite{zouhar-etal-2023-tokenization}. We compute 95\% confidence intervals with 1,000 bootstrap resamples of sentences. We compare tokenizers with paired Wilcoxon signed-rank tests over FLORES sentences, Holm-corrected, and report the rank-biserial correlation $r$ as an effect size.
+
+\subsection{Akshara segmentation}
+We first split text into extended grapheme clusters~\cite{unicode2025uax29}, then split those clusters again at every virama$\rightarrow$consonant point, so the result does not depend on the Unicode version. We then join a cluster to the next one when it ends in a virama (canonical combining class 9), optionally followed by ZWJ/ZWNJ, and the next cluster starts with a consonant of the same script. This turns {\deva क्ष}, {\telu ద్ర} and {\knda ಕ್ಕ} into single aksharas. Two rules are script-specific. In Tamil the pulli marks a visible dead consonant, so {\taml க்}+{\taml க} stays two units; the exception is {\taml க்ஷ}. In Malayalam, chillus (atomic or virama+ZWJ) are standalone. The segmenter passes \val{n:akshara_cases} hand-checked examples covering all nine scripts and Latin.
+
+\subsection{Akshara-atomic BPE}
+We count every Indic akshara in the training corpus. Of these, \val{inv:types_ge2} types occur at least twice. We map the most frequent $\min(n_{\geq2}, V/2)$ types to codepoints in Supplementary Private Use Area-A (U+F0000 onwards); the cap keeps the base alphabet from crowding out merges at small vocabulary sizes $V$. SentencePiece BPE is then trained on the mapped text, and \texttt{encode}/\texttt{decode} apply and reverse the mapping. Merges can join aksharas into larger tokens but can never split a mapped akshara. As baselines we train standard BPE with identical settings (identity normalisation, \texttt{character\_coverage}=1.0, byte fallback) at 16K, 32K and 64K, and a 64K Unigram model. On 1,000 held-out sentences, \texttt{decode(encode(x))=x} holds for every model.
+
+\section{Results}
+Table~\ref{tab:main} summarises the main metrics, and Fig.~\ref{fig:heat} gives fertility for every language.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{figs/fig1_fertility_heatmap.pdf}
+\caption{Fertility (tokens per word) on FLORES-200 devtest. $\dagger$: more than 5\% \texttt{[UNK]} tokens (mBERT on Odia, \val{unk_rate:mbert:ory_Orya}\%), so the low value is an artefact.}
+\label{fig:heat}
+\end{figure*}
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Mean fertility, parity and ASR over Indo-Aryan (IA) and Dravidian (Dr) languages; En = English fertility.}
+\label{tab:main}
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{\input{generated/tab_main.tex}}
+\end{table}
+
+\subsection{RQ1: The Sarvam lineage}
+\textbf{Sarvam-1} gives Indian scripts \val{vshare:pct:sarvam-1}\% of its vocabulary (\val{vshare:n:sarvam-1} entries). Its mean Indic fertility of \val{fertility:sarvam-1:indic} falls within the blog's claimed 1.4--2.1 range~\cite{sarvam2024sarvam1} for Hindi (\val{fertility:sarvam-1:hin_Deva}) and Punjabi (\val{fertility:sarvam-1:pan_Guru}). It is higher for Malayalam (\val{fertility:sarvam-1:mal_Mlym}) and for Assamese (\val{fertility:sarvam-1:asm_Beng}), a language Sarvam-1 does not list as supported.
+\textbf{Sarvam-M} uses the Mistral-Small-3.1 (Tekken~\cite{mistral2024nemo}) vocabulary unchanged: all \val{lin:sarvamm_mistral:shared_string_and_id} entries match in string and id, consistent with the failed vocabulary-extension experiments reported in its blog~\cite{sarvam2025sarvamm}. Its mean Indic fertility rises to \val{fertility:sarvam-m:indic}, reaching \val{fertility:sarvam-m:ory_Orya} on Odia.
+\textbf{Sarvam-30B/105B} shares \val{lin:sarvam30b_gemma3:shared_string_and_id} entries (\val{lin:sarvam30b_gemma3:shared_pct}\%) with Gemma-3~\cite{gemma2025gemma3}, with identical ids. The remaining \val{lin:sarvam30b_gemma3:only_in_a} slots replace mostly CJK (\val{lin:sarvam30b_gemma3:b_only:CJK}), Latin (\val{lin:sarvam30b_gemma3:b_only:Latin}) and Thai entries. They add Gurmukhi (\val{lin:sarvam30b_gemma3:a_only:Gurmukhi}), Odia (\val{lin:sarvam30b_gemma3:a_only:Oriya}), Kannada (\val{lin:sarvam30b_gemma3:a_only:Kannada}), Gujarati (\val{lin:sarvam30b_gemma3:a_only:Gujarati}), Telugu (\val{lin:sarvam30b_gemma3:a_only:Telugu}) and Malayalam (\val{lin:sarvam30b_gemma3:a_only:Malayalam}) tokens, plus Meetei Mayek, Tibetan and Ol Chiki. No Devanagari, Bengali or Tamil tokens were added, so Sarvam-30B and Gemma-3 tokenize Hindi, Marathi, Bengali, Assamese and Tamil identically (e.g.\ Hindi fertility \val{fertility:sarvam-30b:hin_Deva} for both). Overall, Indian scripts make up only \val{vshare:pct:sarvam-30b}\% of the 262K vocabulary (\val{vshare:n:sarvam-30b} entries).
+
+Fig.~\ref{fig:sarvam} and Table~\ref{tab:sarvam} compare the generations. Sarvam-30B lowers fertility relative to Sarvam-1 on \val{wsv:n_b_better:fertility} languages (Hindi, Bengali, Assamese, Punjabi, Odia) but raises it on \val{wsv:n_b_worse:fertility}, including all four Dravidian ones; \val{wsv:n_sig:fertility} of 11 differences are significant after Holm correction. Against general-purpose tokenizers, both Sarvam vocabularies beat GPT-4o (mean Indic fertility \val{fertility:gpt-4o:indic}) and are far ahead of Llama-3.1 (\val{fertility:llama-3.1:indic}). The encoder vocabularies MuRIL and IndicBERTv2, which devote \val{vshare:pct:muril}\% and \val{vshare:pct:indicbert-v2}\% of their entries to Indian scripts, remain the most compact.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/fig3_sarvam_evolution.pdf}
+\caption{Fertility of the three Sarvam tokenizers with 95\% bootstrap CIs.}
+\label{fig:sarvam}
+\end{figure}
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Sarvam-1 vs.\ Sarvam-30B fertility. Paired Wilcoxon over \val{data:flores_per_lang} sentences, Holm-corrected; $r<0$ means Sarvam-30B is higher.}
+\label{tab:sarvam}
+\input{generated/tab_sarvam.tex}
+\end{table}
+
+\subsection{RQ2: Indo-Aryan vs.\ Dravidian, and scripts}
+Dravidian fertility is significantly higher than Indo-Aryan fertility for \val{wfam:n_dr_higher:fertility} of \val{wfam:n_total:fertility} tokenizers (ratio of sentence-level means; Sarvam-1 \val{wfam:ratio:fertility:sarvam-1}, Sarvam-30B \val{wfam:ratio:fertility:sarvam-30b}, our BPE-64K \val{wfam:ratio:fertility:ours-bpe-64k}). Part of this gap is morphological rather than a tokenizer artefact: agglutinative Dravidian words are longer, so a sentence has fewer of them. Parity controls for content and tells a different story. Dravidian parity exceeds Indo-Aryan parity in only \val{wfam:n_dr_higher:parity} of \val{wfam:n_total:parity} tokenizers. The largest gaps are in byte-level tokenizers with almost no Indic merges (Llama-3.1 ratio \val{wfam:ratio:parity:llama-3.1}, GPT-4 \val{wfam:ratio:parity:gpt-4}), where cost tracks the number of UTF-8 bytes. Script coverage matters more than language family. Odia is the most expensive language for GPT-4o (parity \val{parity:gpt-4o:ory_Orya}) and Sarvam-M (\val{parity:sarvam-m:ory_Orya}), and Assamese is the most expensive for Sarvam-1 (\val{parity:sarvam-1:asm_Beng}). Sarvam-30B is the only Sarvam tokenizer with higher Dravidian than Indo-Aryan parity (\val{wfam:ia:parity:sarvam-30b} vs.\ \val{wfam:dr:parity:sarvam-30b}, $r$=\val{wfam:r:parity:sarvam-30b}).
+
+\subsection{RQ3: Broken aksharas}
+Fig.~\ref{fig:asr} shows the ASR. Byte-level tokenizers without Indic merges split nearly every akshara: GPT-4 \val{asr:gpt-4:indic}\%, Llama-3.1 \val{asr:llama-3.1:indic}\% and Qwen2.5 \val{asr:qwen-2.5:indic}\%. Llama-3.1 also splits \val{intra_char_split:llama-3.1:indic}\% of codepoints into byte fragments. GPT-4o splits \val{asr:gpt-4o:indic}\%, Sarvam-1 \val{asr:sarvam-1:indic}\% and Sarvam-30B \val{asr:sarvam-30b:indic}\%, while the WordPiece encoders MuRIL (\val{asr:muril:indic}\%) and IndicBERTv2 (\val{asr:indicbert-v2:indic}\%) are lowest among published tokenizers. Splits fall disproportionately on Dravidian text in Sarvam-30B: its Dravidian ASR is \val{wfam:ratio:asr:sarvam-30b}$\times$ its Indo-Aryan ASR, and on Telugu it splits \val{asr:sarvam-30b:tel_Telu}\% of aksharas against \val{asr:sarvam-1:tel_Telu}\% for Sarvam-1. Fig.~\ref{fig:viz} shows typical failures: vowel signs and viramas left as separate tokens, and hex byte fragments in Llama-3.1.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/fig4_asr.pdf}
+\caption{Akshara Split Rate averaged over Indo-Aryan and Dravidian languages.}
+\label{fig:asr}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figs/fig7_token_visualisation.pdf}
+\caption{Tokenization of one parallel FLORES sentence in Hindi and Telugu. Red bars mark token boundaries inside an akshara.}
+\label{fig:viz}
+\end{figure*}
+
+\subsection{RQ4: Akshara-atomic BPE}
+Table~\ref{tab:ours} and Fig.~\ref{fig:ours} compare our tokenizers. At every vocabulary size, akshara-atomic BPE removes most akshara splits: from \val{asr:ours-bpe-16k:indic}\% to \val{asr:ours-akshara-bpe-16k:indic}\% at 16K and from \val{asr:ours-bpe-64k:indic}\% to \val{asr:ours-akshara-bpe-64k:indic}\% at 64K. Fertility rises by \val{rq4:fert_increase_pct:16k}\% and \val{rq4:fert_increase_pct:64k}\% respectively, and the cost shrinks as the vocabulary grows. Every remaining split falls on an akshara outside the mapped inventory: at 64K, \val{cov:split_mapped:ours-akshara-bpe-64k} mapped aksharas are split, and \val{cov:oov_pct:ours-akshara-bpe-64k}\% of FLORES aksharas are unmapped. The Dravidian/Indo-Aryan ASR ratio falls from \val{wfam:ratio:asr:ours-bpe-64k} for standard BPE to \val{wfam:ratio:asr:ours-akshara-bpe-64k}. At a vocabulary close to Sarvam-1's, the akshara-atomic model has lower mean Indic fertility (\val{fertility:ours-akshara-bpe-64k:indic} vs.\ \val{fertility:sarvam-1:indic}) and a \val{rq4:asr_ratio_sarvam1_over_ours64k}$\times$ lower ASR. Training took \val{train:seconds:ours-akshara-bpe-64k}\,s for the 64K akshara-atomic model on a laptop CPU (plus mapping time), against \val{train:seconds:ours-bpe-64k}\,s for standard BPE. A fair comparison needs one caveat: our models were trained only on these 12 languages, and their English fertility (\val{fertility:ours-bpe-64k:eng}) is worse than that of the commercial tokenizers, which flatters their parity.
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Our tokenizers: mean over 11 Indian languages. Mapped = akshara types given their own base symbol.}
+\label{tab:ours}
+\input{generated/tab_ours.tex}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/fig6_ours_vs_vocab.pdf}
+\caption{Fertility and ASR vs.\ vocabulary size, with Sarvam-1 and Sarvam-30B as reference points.}
+\label{fig:ours}
+\end{figure}
+
+\section{Discussion}
+\textbf{Practical implications.} For Indian deployments, the tokenizer can matter as much as the model. At 8K tokens, Llama-3.1 fits about \val{words_in_8k:llama-3.1:tel_Telu} Telugu words, against \val{words_in_8k:sarvam-1:tel_Telu} for Sarvam-1 and \val{words_in_8k:gpt-4o:tel_Telu} for GPT-4o. Because API pricing is per token, the parity values in Table~\ref{tab:main} act directly as cost multipliers. Reusing a strong general vocabulary (Mistral for Sarvam-M, Gemma-3 for Sarvam-30B) brings English and code efficiency, but inherits that vocabulary's gaps unless the replaced slots cover every target script; Tamil, for example, received no new tokens. Akshara-atomic tokenization offers linguistically well-formed units at a modest fertility cost and could be combined with vocabulary transplantation.
+
+\textbf{Limitations.} Words are defined by whitespace, which penalises agglutinative languages in fertility; we therefore also report parity. FLORES is a Wikipedia-style domain. All metrics are intrinsic: we did not train language models, so we cannot claim that fewer akshara splits improve downstream quality. Our akshara rules approximate orthographic syllables (e.g.\ Tamil pulli handling, nukta forms) and are not a full linguistic syllabifier. Our tokenizers were trained on 50K sentences per language, far less than production tokenizers.
+
+\section{Conclusion and Future Work}
+Sarvam's tokenizers moved from a dedicated Indic vocabulary (Sarvam-1), to an unchanged general vocabulary (Sarvam-M), to a Gemma-3 vocabulary with \val{lin:sarvam30b_gemma3:replaced_pct}\% of its slots reassigned (Sarvam-30B/105B). The last step improved several Indo-Aryan and low-resource scripts but made all four Dravidian languages more expensive and more often split than with Sarvam-1. Akshara-atomic BPE suppresses akshara splits at a \val{rq4:fert_increase_pct:64k}--\val{rq4:fert_increase_pct:16k}\% fertility cost. Future work will train small language models on each tokenizer to test downstream effects, extend the study to IN22 and conversational domains, and combine akshara-atomic units with morphology-aware segmentation~\cite{brahma2025morphtok}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{anthology,extra}
+
+\end{document}

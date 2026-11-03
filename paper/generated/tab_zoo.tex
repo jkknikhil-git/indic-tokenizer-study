@@ -1,0 +1,22 @@
+\begin{tabular}{@{}llrl@{}}
+\toprule
+Tokenizer & Algorithm & Vocab & Spans \\
+\midrule
+Sarvam-1 & SentencePiece BPE+byte-fallback & 68,096 & bytes \\
+Sarvam-M & byte-level BPE & 131,072 & bytes \\
+Sarvam-30B/105B & SentencePiece BPE+byte-fallback & 262,144 & bytes \\
+GPT-4o (o200k) & tiktoken byte-level BPE & 200,019 & bytes \\
+GPT-4 (cl100k) & tiktoken byte-level BPE & 100,277 & bytes \\
+Llama-3.1 & byte-level BPE & 128,256 & bytes \\
+Gemma-3 & SentencePiece BPE+byte-fallback & 262,145 & bytes \\
+Qwen2.5 & byte-level BPE & 151,665 & bytes \\
+MuRIL & WordPiece & 197,258 & offsets \\
+IndicBERTv2 & WordPiece & 250,000 & offsets \\
+XLM-R & SentencePiece Unigram & 250,002 & offsets \\
+mBERT & WordPiece & 119,547 & offsets \\
+\midrule
+Ours BPE 64K & SentencePiece bpe & 64,000 & bytes \\
+Ours Akshara-BPE 64K & SentencePiece bpe (akshara-atomic) & 64,000 & bytes \\
+Ours Unigram 64K & SentencePiece unigram & 64,000 & bytes \\
+\bottomrule
+\end{tabular}

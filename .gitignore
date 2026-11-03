@@ -16,3 +16,5 @@ paper/_build/
 models/*/train_mapped.txt
 *.tmp
 ~$*
+paper/*.xdv
+paper/*.toc
