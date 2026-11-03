@@ -18,6 +18,5 @@ models/*/train_mapped.txt
 ~$*
 paper/*.xdv
 paper/*.toc
-report/report.docx
 report/~$*
 slides/~$*

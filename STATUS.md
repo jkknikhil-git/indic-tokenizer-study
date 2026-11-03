@@ -12,19 +12,6 @@ Still to fill:
 
 Edit them in `scripts/build_report.py` and rebuild, or directly in Word.
 
-## Report file: action needed
-`report/report_build.docx` and `report/report_build.pdf` are the **current** report (27 pages; chapters 1-6 are
-15 pages). `report/report.docx` is an older draft that a hidden Microsoft Word process still has open: the first
-automated conversion hung on Word's "update fields?" prompt, and I was not allowed to end that process. To finish:
-
-1. Open Task Manager, end the two background "Microsoft Word" processes (no visible window; nothing unsaved).
-2. Run:
-   ```
-   .venv\Scripts\python scripts\build_report.py
-   powershell -ExecutionPolicy Bypass -File scripts\office_to_pdf.ps1 -What docx
-   ```
-   (or simply rename `report_build.docx` / `report_build.pdf` to `report.docx` / `report.pdf`).
-
 ## Done
 - **Phase 0**: venv (Python 3.11), requirements, repo layout, git; `gh` already authenticated as `jkknikhil-git`.
   Project lives on D: (`D:\PROJECTS\indic-tokenizer-study`) because C: has little free space; Hugging Face cache is
@@ -47,9 +34,9 @@ automated conversion hung on Word's "update fields?" prompt, and I was not allow
   All numbers come from `paper/generated/numbers.tex` (written by `src/report_numbers.py`); no overfull boxes or
   undefined references. Every reference was checked against arXiv, the ACL Anthology, NeurIPS proceedings,
   OpenReview, or the official blog/repository (ACL BibTeX taken verbatim from the Anthology).
-- **Phase 7**: university report generated with python-docx, converted to PDF with Microsoft Word.
+- **Phase 7**: university report `report/report.docx` + `report/report.pdf` (27 pages; chapters 1-6 are 15 pages), generated with python-docx and converted to PDF with Microsoft Word.
 - **Phase 8**: 14-slide deck with speaker notes, exported to PDF with PowerPoint and checked visually.
-- **Phase 9**: README, tests (77 passing), GitHub repo.
+- **Phase 9**: README, tests (77 passing), public GitHub repo https://github.com/jkknikhil-git/indic-tokenizer-study (created and pushed by you; verified).
 
 ## Skipped / failed / deviations
 - `ai4bharat/IN22-Gen` is gated (`gated=auto`, needs a login), so it was skipped; FLORES-200 is the only benchmark.
@@ -65,17 +52,9 @@ automated conversion hung on Word's "update fields?" prompt, and I was not allow
 - Compute: total well under the 2-hour budget (corpus about 2 min, all training about 10 min, metrics about 2 min).
 
 ## Next (optional)
-- Fill placeholders; finalise `report/report.docx` (see above).
+- Fill the guide's designation and the signatures/dates in `report/report.docx`.
 - Future work listed in the paper: downstream LM training, IN22, word-initial akshara variants.
 
 ## Final check (scripts/final_check.py)
 - 5 random paper numbers recomputed independently from `results/sentence_level.csv.gz`: all match.
 - 96 distinct values quoted in the paper, all defined; all 9 referenced figures exist and are newer than the results.
-
-## GitHub: action needed
-Creating the public repository was blocked by the assistant's permission settings, so it has **not** been created
-or pushed. The paper, report, slides and README already point to
-https://github.com/jkknikhil-git/indic-tokenizer-study. To publish, run in this folder:
-```
-gh repo create jkknikhil-git/indic-tokenizer-study --public --source . --remote origin --push
-```
