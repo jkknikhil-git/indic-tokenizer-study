@@ -40,8 +40,12 @@ def lineage():
         print(f"  vocabulary sizes      : {d['vocab_a']:,} vs {d['vocab_b']:,}")
         print(f"  same string and id    : {d['shared_string_and_id']:,} "
               f"({100 * d['shared_string_and_id'] / d['vocab_a']:.1f}%)")
-        print(f"  only in {d['a']:<14}: {d['only_in_a']:,}  {dict(list(d['only_in_a_by_script'].items())[:6])}")
-        print(f"  only in {d['b']:<14}: {d['only_in_b']:,}  {dict(list(d['only_in_b_by_script'].items())[:6])}\n")
+        for side, key in ((d["a"], "a"), (d["b"], "b")):
+            print(f"  only in {side}: {d[f'only_in_{key}']:,}")
+            top = [f"{s} {n:,}" for s, n in list(d[f"only_in_{key}_by_script"].items())[:6]]
+            for i in range(0, len(top), 3):
+                print("      " + ", ".join(top[i:i + 3]))
+        print()
 
 
 def sarvam():
