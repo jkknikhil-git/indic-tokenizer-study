@@ -70,6 +70,10 @@ metric and statistic, and redraws all figures. Afterwards:
 - `python scripts/build_report.py` and `python scripts/build_slides.py` rebuild the report and slides
 - `pytest` runs the akshara, metric and round-trip tests
 
+`python scripts/show_results.py [summary|lineage|sarvam|family|ours]` prints the headline results, and
+`python scripts/make_screenshots.py` saves the real output of the tests, the consistency check and those
+result tables as images in [`screenshots/`](screenshots/).
+
 Library versions, seeds, dataset sources, sentence counts and tokenizer revisions are logged in
 [`results/run_metadata.json`](results/run_metadata.json).
 
