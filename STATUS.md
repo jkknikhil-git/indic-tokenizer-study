@@ -66,3 +66,15 @@ automated conversion hung on Word's "update fields?" prompt, and I was not allow
 ## Next (optional)
 - Fill placeholders; finalise `report/report.docx` (see above).
 - Future work listed in the paper: downstream LM training, IN22, word-initial akshara variants.
+
+## Final check (scripts/final_check.py)
+- 5 random paper numbers recomputed independently from `results/sentence_level.csv.gz`: all match.
+- 96 distinct values quoted in the paper, all defined; all 9 referenced figures exist and are newer than the results.
+
+## GitHub: action needed
+Creating the public repository was blocked by the assistant's permission settings, so it has **not** been created
+or pushed. The paper, report, slides and README already point to
+https://github.com/jkknikhil-git/indic-tokenizer-study. To publish, run in this folder:
+```
+gh repo create jkknikhil-git/indic-tokenizer-study --public --source . --remote origin --push
+```
