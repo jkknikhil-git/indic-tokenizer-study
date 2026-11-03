@@ -1,0 +1,20 @@
+tokenizer,label,group,source,note,family,span_mode,vocab_size,vocab_sha256,span_stats
+sarvam-1,Sarvam-1,Sarvam,sarvamai/sarvam-1,,SentencePiece BPE+byte-fallback,bytes,68096,b90aa99fcb7152f4281ce1011d092fc3058363b5bf02968bd2147564182a855f,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+sarvam-m,Sarvam-M,Sarvam,sarvamai/sarvam-m,,byte-level BPE,bytes,131072,628ab0856191016eeb51b5d66f3415ad8efa5f9e145f25586eac5b3aa81894c6,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+sarvam-30b,Sarvam-30B/105B,Sarvam,sarvamai/sarvam-30b,,SentencePiece BPE+byte-fallback,bytes,262144,a1b5c6516d95915d181865e3eaf9aea53a7e825b57cb3532ecc84270691f8562,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+gpt-4o,GPT-4o (o200k),Proprietary,o200k_base,,tiktoken byte-level BPE,bytes,200019,a2e7b787675c0614e3d7f4951a4b726cc3894e53010d8783cc7ed4dab9a2ffff,
+gpt-4,GPT-4 (cl100k),Proprietary,cl100k_base,,tiktoken byte-level BPE,bytes,100277,33a5ce597cc6d868032e1aa00d661911ea700406c50900cfca84a4feff89fc0a,
+llama-3.1,Llama-3.1,Open LLM,unsloth/Llama-3.1-8B,mirror of meta-llama/Llama-3.1-8B,byte-level BPE,bytes,128256,9c46517112784e1f14b482eb278350ae55ad787361182336b7ac87d034d95fd0,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+gemma-3,Gemma-3,Open LLM,unsloth/gemma-3-1b-it,mirror of google/gemma-3-1b-it,SentencePiece BPE+byte-fallback,bytes,262145,4dfa3b467684eec93807b86a191546638ec3e4e10fd47e7d055f8fd90cdcb632,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+qwen-2.5,Qwen2.5,Open LLM,Qwen/Qwen2.5-7B,,byte-level BPE,bytes,151665,9d5b5b487f46b4c151202e91cfeb47f2064df4688435aa54e99de8538bc4161d,"{""bytes_ok"": 12144, ""offsets_ok"": 0, ""failed"": 0}"
+muril,MuRIL,Encoder,google/muril-base-cased,,WordPiece,offsets,197258,021f8d21c1f7b531c5c2f182eab6fd1c9fe712111db7c928b3de1de48d18c9aa,"{""bytes_ok"": 0, ""offsets_ok"": 12143, ""failed"": 1}"
+indicbert-v2,IndicBERTv2,Encoder,ai4bharat/IndicBERTv2-MLM-only,,WordPiece,offsets,250000,13f8f885f97762a3ac33ab588de24bd3248d396302169e936369c62d9714e8c8,"{""bytes_ok"": 0, ""offsets_ok"": 12144, ""failed"": 0}"
+xlm-r,XLM-R,Encoder,FacebookAI/xlm-roberta-base,,SentencePiece Unigram,offsets,250002,43c58906e05cbc9a4e7accfacf8dc4aeb68ee79bf2ca3f8ae878a974a510c3ef,"{""bytes_ok"": 0, ""offsets_ok"": 12119, ""failed"": 25}"
+mbert,mBERT,Encoder,google-bert/bert-base-multilingual-cased,,WordPiece,offsets,119547,cb28d1d83dfaabfcf3840e3341f681a5f5a330a2bb9316a400e7f5fbc7098122,"{""bytes_ok"": 0, ""offsets_ok"": 12143, ""failed"": 1}"
+ours-akshara-bpe-16k,Ours Akshara-BPE 16K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-akshara-bpe-16k.model,,SentencePiece bpe (akshara-atomic),bytes,16000,b490412a0d6763041103c94de081ebfaf6fb12153bdd65d44368be2e1d83b374,
+ours-akshara-bpe-32k,Ours Akshara-BPE 32K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-akshara-bpe-32k.model,,SentencePiece bpe (akshara-atomic),bytes,32000,332e4a4f756a433860d9a665abcc00cd69d5d062f8234e0d87c6c0775000fab7,
+ours-akshara-bpe-64k,Ours Akshara-BPE 64K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-akshara-bpe-64k.model,,SentencePiece bpe (akshara-atomic),bytes,64000,6598244087f4f5504a3e8d9a253dd8f6829a26821fb31ccd9283a50c31f72614,
+ours-bpe-16k,Ours BPE 16K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-bpe-16k.model,,SentencePiece bpe,bytes,16000,be5fbb7aed1fc5fd1cfd1d26d539c8cf9419fb4475ba73ca016b8b89227b2ffc,
+ours-bpe-32k,Ours BPE 32K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-bpe-32k.model,,SentencePiece bpe,bytes,32000,847c287603599032873820cb0bfd80dbdcd4ae5ccaf8a52e20c903581c9a4c9e,
+ours-bpe-64k,Ours BPE 64K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-bpe-64k.model,,SentencePiece bpe,bytes,64000,872bcd1b424ce375139a5878f98aab84d87a79ae88209f29c1ffc5481c3acc02,
+ours-unigram-64k,Ours Unigram 64K,Ours,D:\PROJECTS\indic-tokenizer-study\models\ours-unigram-64k.model,,SentencePiece unigram,bytes,64000,e2e4995837167db560054b5c336f61aa09e6ad8c28416b0597884813ce7718df,

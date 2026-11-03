@@ -1,0 +1,515 @@
+{
+  "generated_utc": "2026-11-03T08:44:27+00:00",
+  "python": "3.11.0",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+  "seed": 13,
+  "library_versions": {
+    "transformers": "5.22.1",
+    "tokenizers": "0.23.3",
+    "sentencepiece": "0.2.2",
+    "tiktoken": "0.14.0",
+    "datasets": "5.1.0",
+    "huggingface_hub": "2.4.0",
+    "regex": "2026.9.29",
+    "pandas": "3.1.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "pyarrow": "26.0.0",
+    "python-docx": "1.2.0",
+    "python-pptx": "1.0.2",
+    "Pillow": "13.0.0"
+  },
+  "evaluation": {
+    "dataset": "FLORES-200 devtest",
+    "source": "https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz",
+    "sentences_per_language": {
+      "eng_Latn": 1012,
+      "hin_Deva": 1012,
+      "mar_Deva": 1012,
+      "ben_Beng": 1012,
+      "asm_Beng": 1012,
+      "guj_Gujr": 1012,
+      "pan_Guru": 1012,
+      "ory_Orya": 1012,
+      "tel_Telu": 1012,
+      "tam_Taml": 1012,
+      "kan_Knda": 1012,
+      "mal_Mlym": 1012
+    }
+  },
+  "second_benchmark": {
+    "dataset": "ai4bharat/IN22-Gen",
+    "status": "skipped: gated on the Hugging Face Hub (needs login)"
+  },
+  "training_corpus": {
+    "source": "ai4bharat/sangraha, verified split, shards data-0/data-1 (streamed)",
+    "per_language": {
+      "eng_Latn": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3689,
+        "eval_overlap_removed": 2,
+        "duplicates_removed": 955,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "hin_Deva": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3693,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 1419,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "mar_Deva": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3543,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 977,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "ben_Beng": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3550,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 356,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "asm_Beng": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4569,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 840,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "guj_Gujr": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3702,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 288,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "pan_Guru": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4041,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 442,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "ory_Orya": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4035,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 636,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "tel_Telu": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 3997,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 859,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "tam_Taml": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4471,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 1228,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "kan_Knda": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4110,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 985,
+        "source": "ai4bharat/sangraha (verified)"
+      },
+      "mal_Mlym": {
+        "train": 50000,
+        "heldout": 100,
+        "docs_read": 4230,
+        "eval_overlap_removed": 0,
+        "duplicates_removed": 1650,
+        "source": "ai4bharat/sangraha (verified)"
+      }
+    },
+    "overlap_rule": "exact normalised match or shared 40-char normalised substring with FLORES-200 dev+devtest",
+    "local_files": [
+      "asm_Beng.txt",
+      "ben_Beng.txt",
+      "eng_Latn.txt",
+      "guj_Gujr.txt",
+      "heldout_asm_Beng.txt",
+      "heldout_ben_Beng.txt",
+      "heldout_eng_Latn.txt",
+      "heldout_guj_Gujr.txt",
+      "heldout_hin_Deva.txt",
+      "heldout_kan_Knda.txt",
+      "heldout_mal_Mlym.txt",
+      "heldout_mar_Deva.txt",
+      "heldout_ory_Orya.txt",
+      "heldout_pan_Guru.txt",
+      "heldout_tam_Taml.txt",
+      "heldout_tel_Telu.txt",
+      "hin_Deva.txt",
+      "kan_Knda.txt",
+      "mal_Mlym.txt",
+      "mar_Deva.txt",
+      "ory_Orya.txt",
+      "pan_Guru.txt",
+      "tam_Taml.txt",
+      "tel_Telu.txt"
+    ]
+  },
+  "tokenizers": [
+    {
+      "tokenizer": "sarvam-1",
+      "label": "Sarvam-1",
+      "group": "Sarvam",
+      "source": "sarvamai/sarvam-1",
+      "note": NaN,
+      "family": "SentencePiece BPE+byte-fallback",
+      "span_mode": "bytes",
+      "vocab_size": 68096,
+      "vocab_sha256": "b90aa99fcb7152f4281ce1011d092fc3058363b5bf02968bd2147564182a855f",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "sarvam-m",
+      "label": "Sarvam-M",
+      "group": "Sarvam",
+      "source": "sarvamai/sarvam-m",
+      "note": NaN,
+      "family": "byte-level BPE",
+      "span_mode": "bytes",
+      "vocab_size": 131072,
+      "vocab_sha256": "628ab0856191016eeb51b5d66f3415ad8efa5f9e145f25586eac5b3aa81894c6",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "sarvam-30b",
+      "label": "Sarvam-30B/105B",
+      "group": "Sarvam",
+      "source": "sarvamai/sarvam-30b",
+      "note": NaN,
+      "family": "SentencePiece BPE+byte-fallback",
+      "span_mode": "bytes",
+      "vocab_size": 262144,
+      "vocab_sha256": "a1b5c6516d95915d181865e3eaf9aea53a7e825b57cb3532ecc84270691f8562",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "gpt-4o",
+      "label": "GPT-4o (o200k)",
+      "group": "Proprietary",
+      "source": "o200k_base",
+      "note": NaN,
+      "family": "tiktoken byte-level BPE",
+      "span_mode": "bytes",
+      "vocab_size": 200019,
+      "vocab_sha256": "a2e7b787675c0614e3d7f4951a4b726cc3894e53010d8783cc7ed4dab9a2ffff",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "gpt-4",
+      "label": "GPT-4 (cl100k)",
+      "group": "Proprietary",
+      "source": "cl100k_base",
+      "note": NaN,
+      "family": "tiktoken byte-level BPE",
+      "span_mode": "bytes",
+      "vocab_size": 100277,
+      "vocab_sha256": "33a5ce597cc6d868032e1aa00d661911ea700406c50900cfca84a4feff89fc0a",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "llama-3.1",
+      "label": "Llama-3.1",
+      "group": "Open LLM",
+      "source": "unsloth/Llama-3.1-8B",
+      "note": "mirror of meta-llama/Llama-3.1-8B",
+      "family": "byte-level BPE",
+      "span_mode": "bytes",
+      "vocab_size": 128256,
+      "vocab_sha256": "9c46517112784e1f14b482eb278350ae55ad787361182336b7ac87d034d95fd0",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "gemma-3",
+      "label": "Gemma-3",
+      "group": "Open LLM",
+      "source": "unsloth/gemma-3-1b-it",
+      "note": "mirror of google/gemma-3-1b-it",
+      "family": "SentencePiece BPE+byte-fallback",
+      "span_mode": "bytes",
+      "vocab_size": 262145,
+      "vocab_sha256": "4dfa3b467684eec93807b86a191546638ec3e4e10fd47e7d055f8fd90cdcb632",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "qwen-2.5",
+      "label": "Qwen2.5",
+      "group": "Open LLM",
+      "source": "Qwen/Qwen2.5-7B",
+      "note": NaN,
+      "family": "byte-level BPE",
+      "span_mode": "bytes",
+      "vocab_size": 151665,
+      "vocab_sha256": "9d5b5b487f46b4c151202e91cfeb47f2064df4688435aa54e99de8538bc4161d",
+      "span_stats": "{\"bytes_ok\": 12144, \"offsets_ok\": 0, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "muril",
+      "label": "MuRIL",
+      "group": "Encoder",
+      "source": "google/muril-base-cased",
+      "note": NaN,
+      "family": "WordPiece",
+      "span_mode": "offsets",
+      "vocab_size": 197258,
+      "vocab_sha256": "021f8d21c1f7b531c5c2f182eab6fd1c9fe712111db7c928b3de1de48d18c9aa",
+      "span_stats": "{\"bytes_ok\": 0, \"offsets_ok\": 12143, \"failed\": 1}"
+    },
+    {
+      "tokenizer": "indicbert-v2",
+      "label": "IndicBERTv2",
+      "group": "Encoder",
+      "source": "ai4bharat/IndicBERTv2-MLM-only",
+      "note": NaN,
+      "family": "WordPiece",
+      "span_mode": "offsets",
+      "vocab_size": 250000,
+      "vocab_sha256": "13f8f885f97762a3ac33ab588de24bd3248d396302169e936369c62d9714e8c8",
+      "span_stats": "{\"bytes_ok\": 0, \"offsets_ok\": 12144, \"failed\": 0}"
+    },
+    {
+      "tokenizer": "xlm-r",
+      "label": "XLM-R",
+      "group": "Encoder",
+      "source": "FacebookAI/xlm-roberta-base",
+      "note": NaN,
+      "family": "SentencePiece Unigram",
+      "span_mode": "offsets",
+      "vocab_size": 250002,
+      "vocab_sha256": "43c58906e05cbc9a4e7accfacf8dc4aeb68ee79bf2ca3f8ae878a974a510c3ef",
+      "span_stats": "{\"bytes_ok\": 0, \"offsets_ok\": 12119, \"failed\": 25}"
+    },
+    {
+      "tokenizer": "mbert",
+      "label": "mBERT",
+      "group": "Encoder",
+      "source": "google-bert/bert-base-multilingual-cased",
+      "note": NaN,
+      "family": "WordPiece",
+      "span_mode": "offsets",
+      "vocab_size": 119547,
+      "vocab_sha256": "cb28d1d83dfaabfcf3840e3341f681a5f5a330a2bb9316a400e7f5fbc7098122",
+      "span_stats": "{\"bytes_ok\": 0, \"offsets_ok\": 12143, \"failed\": 1}"
+    },
+    {
+      "tokenizer": "ours-akshara-bpe-16k",
+      "label": "Ours Akshara-BPE 16K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-akshara-bpe-16k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe (akshara-atomic)",
+      "span_mode": "bytes",
+      "vocab_size": 16000,
+      "vocab_sha256": "b490412a0d6763041103c94de081ebfaf6fb12153bdd65d44368be2e1d83b374",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-akshara-bpe-32k",
+      "label": "Ours Akshara-BPE 32K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-akshara-bpe-32k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe (akshara-atomic)",
+      "span_mode": "bytes",
+      "vocab_size": 32000,
+      "vocab_sha256": "332e4a4f756a433860d9a665abcc00cd69d5d062f8234e0d87c6c0775000fab7",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-akshara-bpe-64k",
+      "label": "Ours Akshara-BPE 64K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-akshara-bpe-64k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe (akshara-atomic)",
+      "span_mode": "bytes",
+      "vocab_size": 64000,
+      "vocab_sha256": "6598244087f4f5504a3e8d9a253dd8f6829a26821fb31ccd9283a50c31f72614",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-bpe-16k",
+      "label": "Ours BPE 16K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-bpe-16k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe",
+      "span_mode": "bytes",
+      "vocab_size": 16000,
+      "vocab_sha256": "be5fbb7aed1fc5fd1cfd1d26d539c8cf9419fb4475ba73ca016b8b89227b2ffc",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-bpe-32k",
+      "label": "Ours BPE 32K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-bpe-32k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe",
+      "span_mode": "bytes",
+      "vocab_size": 32000,
+      "vocab_sha256": "847c287603599032873820cb0bfd80dbdcd4ae5ccaf8a52e20c903581c9a4c9e",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-bpe-64k",
+      "label": "Ours BPE 64K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-bpe-64k.model",
+      "note": NaN,
+      "family": "SentencePiece bpe",
+      "span_mode": "bytes",
+      "vocab_size": 64000,
+      "vocab_sha256": "872bcd1b424ce375139a5878f98aab84d87a79ae88209f29c1ffc5481c3acc02",
+      "span_stats": NaN
+    },
+    {
+      "tokenizer": "ours-unigram-64k",
+      "label": "Ours Unigram 64K",
+      "group": "Ours",
+      "source": "D:\\PROJECTS\\indic-tokenizer-study\\models\\ours-unigram-64k.model",
+      "note": NaN,
+      "family": "SentencePiece unigram",
+      "span_mode": "bytes",
+      "vocab_size": 64000,
+      "vocab_sha256": "e2e4995837167db560054b5c336f61aa09e6ad8c28416b0597884813ce7718df",
+      "span_stats": NaN
+    }
+  ],
+  "hf_revisions": {
+    "ai4bharat/IndicBERTv2-MLM-only": "8598f13fe52443bc3fc054fcd665944560145b5c",
+    "FacebookAI/xlm-roberta-base": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+    "google/muril-base-cased": "afd9f36c7923d54e97903922ff1b260d091d202f",
+    "google-bert/bert-base-multilingual-cased": "3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+    "Qwen/Qwen2.5-7B": "d149729398750b98c0af14eb82c78cfe92750796",
+    "sarvamai/sarvam-1": "e9607337286ddf496d4a2562b194e489dcf3feea",
+    "sarvamai/sarvam-105b": "abe264bdb8fb2244daadaa59ebc2020b3c139e89",
+    "sarvamai/sarvam-30b": "071ae95e933605ca1104a6b4524a36a98488efa4",
+    "sarvamai/sarvam-m": "01534a53c46f2788e392dbb3d994e0fa8f04d3fd",
+    "unsloth/gemma-3-1b-it": "5b11413a10db4e486ef16a20101fd028f8f2499c",
+    "unsloth/Llama-3.1-8B": "3f0d51f8e5640f98f1a96ea9044a0e55c0a83814",
+    "unsloth/Mistral-Small-3.1-24B-Instruct-2503": "7ffb21b8e7524696762ab6e8ede9f57b565e211b"
+  },
+  "mirror_verification": {
+    "gemma-3": {
+      "tokenizer.json": {
+        "official": "29401f984828a18bb09a6128d437c6766785eb66",
+        "mirror": "29401f984828a18bb09a6128d437c6766785eb66",
+        "identical": true
+      },
+      "tokenizer.model": {
+        "official": "14f810a829755bae3fafd6f97096dbd2eac556bd",
+        "mirror": "14f810a829755bae3fafd6f97096dbd2eac556bd",
+        "identical": true
+      }
+    },
+    "llama-3.1": {
+      "official_source": "https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama3/tokenizer.model",
+      "official_base_tokens": 128000,
+      "mirror_base_tokens": 128000,
+      "mirror_special_tokens": 256,
+      "identical_token_to_id_map": true
+    }
+  },
+  "own_tokenizer_training": {
+    "ours-bpe-16k": {
+      "name": "ours-bpe-16k",
+      "algo": "bpe",
+      "vocab_size": 16000,
+      "akshara_atomic": false,
+      "train_seconds": 14.7,
+      "total_seconds": 14.7
+    },
+    "_akshara_inventory": {
+      "types": 31050,
+      "types_freq_ge2": 22221,
+      "tokens": 23439157
+    },
+    "ours-akshara-bpe-16k": {
+      "name": "ours-akshara-bpe-16k",
+      "algo": "bpe",
+      "vocab_size": 16000,
+      "akshara_atomic": true,
+      "mapped_types": 8000,
+      "map_cap": 8000,
+      "token_coverage": 0.99268,
+      "mapping_seconds": 67.1,
+      "train_seconds": 11.3,
+      "total_seconds": 78.3
+    },
+    "ours-bpe-32k": {
+      "name": "ours-bpe-32k",
+      "algo": "bpe",
+      "vocab_size": 32000,
+      "akshara_atomic": false,
+      "train_seconds": 15.4,
+      "total_seconds": 15.4
+    },
+    "ours-akshara-bpe-32k": {
+      "name": "ours-akshara-bpe-32k",
+      "algo": "bpe",
+      "vocab_size": 32000,
+      "akshara_atomic": true,
+      "mapped_types": 16000,
+      "map_cap": 16000,
+      "token_coverage": 0.99887,
+      "mapping_seconds": 66.5,
+      "train_seconds": 11.5,
+      "total_seconds": 78.0
+    },
+    "ours-bpe-64k": {
+      "name": "ours-bpe-64k",
+      "algo": "bpe",
+      "vocab_size": 64000,
+      "akshara_atomic": false,
+      "train_seconds": 20.8,
+      "total_seconds": 20.8
+    },
+    "ours-akshara-bpe-64k": {
+      "name": "ours-akshara-bpe-64k",
+      "algo": "bpe",
+      "vocab_size": 64000,
+      "akshara_atomic": true,
+      "mapped_types": 22221,
+      "map_cap": 32000,
+      "token_coverage": 0.99962,
+      "mapping_seconds": 145.5,
+      "train_seconds": 19.8,
+      "total_seconds": 165.3
+    },
+    "ours-unigram-64k": {
+      "name": "ours-unigram-64k",
+      "algo": "unigram",
+      "vocab_size": 64000,
+      "akshara_atomic": false,
+      "train_seconds": 187.2,
+      "total_seconds": 187.2
+    }
+  }
+}

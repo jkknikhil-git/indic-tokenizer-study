@@ -32,6 +32,7 @@ class Encoded:
     ref_text: str
     spans: list[tuple[int, int]] | None  # byte spans into ref_text.encode("utf-8")
     mode: str  # "bytes" | "offsets" | "none"
+    n_unk: int = 0  # tokens that are the tokenizer's unknown token
 
     def pieces(self) -> list[str]:
         b = self.ref_text.encode("utf-8")
@@ -159,6 +160,7 @@ class HFTokenizer:
         else:
             self.family, self.span_mode = self.model_type, "offsets"
         self.normalizer = self.backend.normalizer
+        self.unk_id = self.tok.unk_token_id
         self.stats = {"bytes_ok": 0, "offsets_ok": 0, "failed": 0}
 
     # ---- helpers -------------------------------------------------------------------
@@ -215,18 +217,19 @@ class HFTokenizer:
     def encode(self, text: str) -> Encoded:
         enc = self.backend.encode(text, add_special_tokens=False)
         n = len(enc.ids)
+        unk = sum(1 for i in enc.ids if i == self.unk_id) if self.unk_id is not None else 0
         if self.span_mode == "bytes":
             ref = self.normalize(text)
             spans = self._bytes_spans(enc.tokens, ref)
             if spans is not None:
                 self.stats["bytes_ok"] += 1
-                return Encoded(n, ref, spans, "bytes")
+                return Encoded(n, ref, spans, "bytes", unk)
         spans = self._offset_spans(text, enc.tokens, enc.offsets)
         if spans is not None:
             self.stats["offsets_ok"] += 1
-            return Encoded(n, text, spans, "offsets")
+            return Encoded(n, text, spans, "offsets", unk)
         self.stats["failed"] += 1
-        return Encoded(n, text, None, "none")
+        return Encoded(n, text, None, "none", unk)
 
     def vocab_bytes(self) -> list[bytes]:
         return [self._piece_bytes(t) for t in self.vocab]

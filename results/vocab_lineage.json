@@ -1,0 +1,49 @@
+[
+  {
+    "a": "Sarvam-30B/105B",
+    "b": "Gemma-3",
+    "vocab_a": 262144,
+    "vocab_b": 262145,
+    "shared_strings": 239316,
+    "shared_string_and_id": 239314,
+    "only_in_a": 22828,
+    "only_in_b": 22829,
+    "only_in_a_by_script": {
+      "Gurmukhi": 3527,
+      "Oriya": 3302,
+      "Kannada": 2946,
+      "Gujarati": 2643,
+      "Telugu": 2530,
+      "Meetei Mayek": 2342,
+      "Malayalam": 2071,
+      "Tibetan": 1840,
+      "Ol Chiki": 1320,
+      "Mixed": 119,
+      "Digits/Symbols": 99,
+      "Latin": 87,
+      "Tamil": 2
+    },
+    "only_in_b_by_script": {
+      "CJK": 9546,
+      "Other": 4678,
+      "Latin": 3890,
+      "Thai": 2162,
+      "Greek": 1313,
+      "Hebrew": 832,
+      "Digits/Symbols": 402,
+      "Mixed": 6
+    }
+  },
+  {
+    "a": "Sarvam-M",
+    "b": "Mistral-Small-3.1 (Tekken)",
+    "vocab_a": 131072,
+    "vocab_b": 131072,
+    "shared_strings": 131072,
+    "shared_string_and_id": 131072,
+    "only_in_a": 0,
+    "only_in_b": 0,
+    "only_in_a_by_script": {},
+    "only_in_b_by_script": {}
+  }
+]

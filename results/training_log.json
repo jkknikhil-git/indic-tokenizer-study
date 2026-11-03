@@ -1,0 +1,75 @@
+{
+  "ours-bpe-16k": {
+    "name": "ours-bpe-16k",
+    "algo": "bpe",
+    "vocab_size": 16000,
+    "akshara_atomic": false,
+    "train_seconds": 14.7,
+    "total_seconds": 14.7
+  },
+  "_akshara_inventory": {
+    "types": 31050,
+    "types_freq_ge2": 22221,
+    "tokens": 23439157
+  },
+  "ours-akshara-bpe-16k": {
+    "name": "ours-akshara-bpe-16k",
+    "algo": "bpe",
+    "vocab_size": 16000,
+    "akshara_atomic": true,
+    "mapped_types": 8000,
+    "map_cap": 8000,
+    "token_coverage": 0.99268,
+    "mapping_seconds": 67.1,
+    "train_seconds": 11.3,
+    "total_seconds": 78.3
+  },
+  "ours-bpe-32k": {
+    "name": "ours-bpe-32k",
+    "algo": "bpe",
+    "vocab_size": 32000,
+    "akshara_atomic": false,
+    "train_seconds": 15.4,
+    "total_seconds": 15.4
+  },
+  "ours-akshara-bpe-32k": {
+    "name": "ours-akshara-bpe-32k",
+    "algo": "bpe",
+    "vocab_size": 32000,
+    "akshara_atomic": true,
+    "mapped_types": 16000,
+    "map_cap": 16000,
+    "token_coverage": 0.99887,
+    "mapping_seconds": 66.5,
+    "train_seconds": 11.5,
+    "total_seconds": 78.0
+  },
+  "ours-bpe-64k": {
+    "name": "ours-bpe-64k",
+    "algo": "bpe",
+    "vocab_size": 64000,
+    "akshara_atomic": false,
+    "train_seconds": 20.8,
+    "total_seconds": 20.8
+  },
+  "ours-akshara-bpe-64k": {
+    "name": "ours-akshara-bpe-64k",
+    "algo": "bpe",
+    "vocab_size": 64000,
+    "akshara_atomic": true,
+    "mapped_types": 22221,
+    "map_cap": 32000,
+    "token_coverage": 0.99962,
+    "mapping_seconds": 145.5,
+    "train_seconds": 19.8,
+    "total_seconds": 165.3
+  },
+  "ours-unigram-64k": {
+    "name": "ours-unigram-64k",
+    "algo": "unigram",
+    "vocab_size": 64000,
+    "akshara_atomic": false,
+    "train_seconds": 187.2,
+    "total_seconds": 187.2
+  }
+}

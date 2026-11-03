@@ -1,0 +1,26 @@
+{
+  "ours-akshara-bpe-16k": {
+    "aksharas": 675403,
+    "outside_inventory": 12120,
+    "outside_inventory_pct": 1.7944841820365027,
+    "split_mapped": 0,
+    "split_unmapped": 10640,
+    "asr_pct": 1.5753557505666986
+  },
+  "ours-akshara-bpe-32k": {
+    "aksharas": 675403,
+    "outside_inventory": 4550,
+    "outside_inventory_pct": 0.673671867018654,
+    "split_mapped": 0,
+    "split_unmapped": 4548,
+    "asr_pct": 0.6733757475166678
+  },
+  "ours-akshara-bpe-64k": {
+    "aksharas": 675403,
+    "outside_inventory": 3961,
+    "outside_inventory_pct": 0.5864646736837118,
+    "split_mapped": 0,
+    "split_unmapped": 3959,
+    "asr_pct": 0.5861685541817255
+  }
+}
