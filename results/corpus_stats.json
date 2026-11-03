@@ -1,0 +1,151 @@
+{
+  "per_lang_target": 50000,
+  "heldout_per_lang": 100,
+  "overlap_rule": "exact normalised match or shared 40-char normalised substring with FLORES-200 dev+devtest",
+  "languages": [
+    {
+      "lang": "eng_Latn",
+      "docs": 3689,
+      "candidates": 55182,
+      "filtered_out": 4121,
+      "duplicates": 955,
+      "eval_overlap": 2,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 17.3
+    },
+    {
+      "lang": "hin_Deva",
+      "docs": 3693,
+      "candidates": 56810,
+      "filtered_out": 5290,
+      "duplicates": 1419,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 50.2
+    },
+    {
+      "lang": "mar_Deva",
+      "docs": 3543,
+      "candidates": 56611,
+      "filtered_out": 5532,
+      "duplicates": 977,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 31.5
+    },
+    {
+      "lang": "ben_Beng",
+      "docs": 3550,
+      "candidates": 55493,
+      "filtered_out": 5025,
+      "duplicates": 356,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 57.3
+    },
+    {
+      "lang": "asm_Beng",
+      "docs": 4569,
+      "candidates": 61764,
+      "filtered_out": 10806,
+      "duplicates": 840,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 31.5
+    },
+    {
+      "lang": "guj_Gujr",
+      "docs": 3702,
+      "candidates": 57414,
+      "filtered_out": 7026,
+      "duplicates": 288,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 32.4
+    },
+    {
+      "lang": "pan_Guru",
+      "docs": 4041,
+      "candidates": 57411,
+      "filtered_out": 6859,
+      "duplicates": 442,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 38.2
+    },
+    {
+      "lang": "ory_Orya",
+      "docs": 4035,
+      "candidates": 55303,
+      "filtered_out": 4559,
+      "duplicates": 636,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 27.3
+    },
+    {
+      "lang": "tel_Telu",
+      "docs": 3997,
+      "candidates": 64115,
+      "filtered_out": 13146,
+      "duplicates": 859,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 54.6
+    },
+    {
+      "lang": "tam_Taml",
+      "docs": 4471,
+      "candidates": 63774,
+      "filtered_out": 12430,
+      "duplicates": 1228,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 41.0
+    },
+    {
+      "lang": "kan_Knda",
+      "docs": 4110,
+      "candidates": 61596,
+      "filtered_out": 10496,
+      "duplicates": 985,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 36.6
+    },
+    {
+      "lang": "mal_Mlym",
+      "docs": 4230,
+      "candidates": 58926,
+      "filtered_out": 7173,
+      "duplicates": 1650,
+      "eval_overlap": 0,
+      "source": "ai4bharat/sangraha (verified)",
+      "train_sentences": 50000,
+      "heldout_sentences": 100,
+      "seconds": 24.8
+    }
+  ]
+}

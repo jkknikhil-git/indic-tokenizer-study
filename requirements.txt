@@ -1,0 +1,17 @@
+transformers
+tokenizers
+sentencepiece
+tiktoken
+datasets
+huggingface_hub
+regex
+pandas
+numpy
+scipy
+matplotlib
+seaborn
+tqdm
+pytest
+python-docx
+python-pptx
+protobuf
