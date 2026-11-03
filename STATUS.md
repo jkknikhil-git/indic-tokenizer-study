@@ -4,13 +4,10 @@
 Filled: Reg. No. `23FE10CII00213`, course "Natural Language Processing (NLP)", guide "Heena Kalim"
 (report cover, certificate, declaration, acknowledgement; slide 1).
 
-Still to fill:
-| Placeholder | Where |
-|---|---|
-| `[FACULTY_DESIGNATION]` | report: certificate (line under the guide's name) |
-| Signatures and dates | report: certificate and declaration (blank lines) |
+The guide's designation line was removed from the certificate (edited in Word; `scripts/build_report.py` matches).
 
-Edit them in `scripts/build_report.py` and rebuild, or directly in Word.
+Still to fill by hand: signatures and dates on the certificate and declaration pages (blank lines, meant for the
+printed copy).
 
 ## Done
 - **Phase 0**: venv (Python 3.11), requirements, repo layout, git; `gh` already authenticated as `jkknikhil-git`.

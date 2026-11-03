@@ -251,7 +251,7 @@ def front_matter(R: Report):
            "student under my supervision during the academic year 2026–27.")
     for _ in range(3):
         R.doc.add_paragraph()
-    R.para("Heena Kalim\n[FACULTY_DESIGNATION]\nDepartment of Computer Science and Engineering\n"
+    R.para("Heena Kalim\nDepartment of Computer Science and Engineering\n"
            "Manipal University Jaipur", align=WD_ALIGN_PARAGRAPH.LEFT)
     R.para("Date: ____________          Signature: ____________", align=WD_ALIGN_PARAGRAPH.LEFT)
 
