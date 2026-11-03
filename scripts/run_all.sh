@@ -17,4 +17,9 @@ $PY src/stats.py                     # bootstrap CIs + Wilcoxon tests
 $PY src/vocab_analysis.py            # vocabulary composition + lineage
 $PY src/metadata.py                  # results/run_metadata.json
 $PY src/plots.py                     # figures/
+$PY src/report_numbers.py            # every number quoted in paper/report/slides
+$PY scripts/build_readme.py
+$PY scripts/build_report.py          # report/report.docx
+$PY scripts/build_slides.py          # slides/presentation.pptx
+$PY scripts/build_paper.py || echo "paper build skipped (install tectonic)"
 $PY -m pytest -q

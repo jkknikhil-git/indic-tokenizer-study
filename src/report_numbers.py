@@ -93,7 +93,16 @@ def build() -> dict:
             put(f"train:mapped:{name}", d["mapped_types"], 0)
             put(f"train:coverage:{name}", 100 * d["token_coverage"], 2)
     cov = json.loads((RESULTS / "akshara_coverage.json").read_text(encoding="utf-8"))
+    for size in ("16k", "32k", "64k"):
+        a, b = cov.get(f"ours-akshara-bpe-{size}", {}), cov.get(f"ours-bpe-{size}", {})
+        if "tokens" in a and "tokens" in b:
+            put(f"bare:extra_share_pct:{size}", 100 * (a["bare_metaspace"] - b["bare_metaspace"]) /
+                (a["tokens"] - b["tokens"]), 0)
+            put(f"bare:pct:ours-akshara-bpe-{size}", 100 * a["bare_metaspace"] / a["tokens"], 1)
+            put(f"bare:pct:ours-bpe-{size}", 100 * b["bare_metaspace"] / b["tokens"], 1)
     for name, d in cov.items():
+        if "outside_inventory_pct" not in d:
+            continue
         put(f"cov:oov_pct:{name}", d["outside_inventory_pct"], 2)
         put(f"cov:split_mapped:{name}", d["split_mapped"], 0)
         put(f"cov:split_unmapped:{name}", d["split_unmapped"], 0)

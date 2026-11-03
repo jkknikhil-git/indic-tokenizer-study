@@ -5,7 +5,9 @@
     "outside_inventory_pct": 1.7944841820365027,
     "split_mapped": 0,
     "split_unmapped": 10640,
-    "asr_pct": 1.5753557505666986
+    "asr_pct": 1.5753557505666986,
+    "tokens": 588952,
+    "bare_metaspace": 20663
   },
   "ours-akshara-bpe-32k": {
     "aksharas": 675403,
@@ -13,7 +15,9 @@
     "outside_inventory_pct": 0.673671867018654,
     "split_mapped": 0,
     "split_unmapped": 4548,
-    "asr_pct": 0.6733757475166678
+    "asr_pct": 0.6733757475166678,
+    "tokens": 513353,
+    "bare_metaspace": 14397
   },
   "ours-akshara-bpe-64k": {
     "aksharas": 675403,
@@ -21,6 +25,24 @@
     "outside_inventory_pct": 0.5864646736837118,
     "split_mapped": 0,
     "split_unmapped": 3959,
-    "asr_pct": 0.5861685541817255
+    "asr_pct": 0.5861685541817255,
+    "tokens": 432792,
+    "bare_metaspace": 9044
+  },
+  "ours-bpe-16k": {
+    "tokens": 549316,
+    "bare_metaspace": 5563
+  },
+  "ours-bpe-32k": {
+    "tokens": 474291,
+    "bare_metaspace": 5117
+  },
+  "ours-bpe-64k": {
+    "tokens": 412121,
+    "bare_metaspace": 4987
+  },
+  "ours-unigram-64k": {
+    "tokens": 407064,
+    "bare_metaspace": 11539
   }
 }

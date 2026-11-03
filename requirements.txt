@@ -16,3 +16,4 @@ python-docx
 python-pptx
 protobuf
 pymupdf
+qrcode[pil]

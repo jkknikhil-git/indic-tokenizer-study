@@ -38,6 +38,7 @@ PUA_START = 0xF0000
 PUA_END = 0xFFFFD
 MIN_FREQ = 2
 MAP_FRACTION = 0.5
+META = "▁"
 _SP_BYTE = re.compile(r"^<0x([0-9A-Fa-f]{2})>$")
 
 SP_COMMON = dict(
@@ -240,6 +241,17 @@ def akshara_coverage() -> dict:
         out[entry.key] = dict(aksharas=tot, outside_inventory=oov, outside_inventory_pct=100 * oov / tot,
                               split_mapped=split_mapped, split_unmapped=split_unmapped,
                               asr_pct=100 * (split_mapped + split_unmapped) / tot)
+    # Standalone word-boundary pieces: SentencePiece emits a bare meta-symbol when no merge joins it to the
+    # first symbol of a word, which happens more often once that symbol is an atomic akshara.
+    for entry in local_entries():
+        tok = LocalSPTokenizer(entry)
+        n_tok = n_bare = 0
+        for lang in INDIC:
+            for s in flores[lang]:
+                pieces = tok.encode_pieces(s)
+                n_tok += len(pieces)
+                n_bare += sum(1 for pc in pieces if pc == META)
+        out.setdefault(entry.key, {}).update(tokens=n_tok, bare_metaspace=n_bare)
     (RESULTS / "akshara_coverage.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out
 
